@@ -1,0 +1,34 @@
+#!/usr/bin/python
+
+import sys
+import requests;
+app_status=0;
+db_conn=0;
+url=sys.argv[1];
+try:
+ r = requests.get(url,verify=False)
+except:
+ print "%s not available. not returning any status codes"%url;
+ sys.exit(2);
+print r.status_code;
+if r.status_code!=200:
+ print "app seems down"
+ sys.exit(2);
+else:
+ try:
+   data=r.json();
+   for i in data:
+    if data[i]["healthy"]!=True:
+      print i+" looks bad";
+      sys.exit(2);
+   print "url is %s"%url
+   print ",".join(data) +" looks good!";
+   sys.exit(0);
+ except Exception as e: # for checking lbstatus file..there is no json just status code . so data=r.json(); will fail
+   print e;
+   if r.status_code==200:
+    print "url is %s \n box is in rotation"%url
+    sys.exit(0);
+   else:
+    print "box out of rotation"
+    sys.exit(2);
