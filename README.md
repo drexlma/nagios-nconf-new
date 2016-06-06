@@ -1,4 +1,5 @@
-Inmobi CORP IT Infra Nagios Setup
+
+Nagios Setup
 ==========================================
 * Docker container for CORP IT Nagios
 * will install from source - apache2,mysql,nagios,nconf,mysqlsetup for nconf.
